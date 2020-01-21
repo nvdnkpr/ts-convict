@@ -1,4 +1,4 @@
-import {Property, Config} from "../../../";
+import {Property, Config} from "../../../index";
 import WithMainChild from './WithMainChild.model';
 import * as yaml from 'js-yaml';
 
@@ -21,5 +21,7 @@ export default class WithMainParent {
 
     @Property(WithMainChild)
     public subConfig: WithMainChild;
+
+    public extraSauce: string = "yes please";
 
 }

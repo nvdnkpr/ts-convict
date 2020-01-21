@@ -1,5 +1,6 @@
 import { Parser } from 'convict';
 import { getMetaSchemaStorage } from '../';
+import reflect from "../util/Reflector";
 
 export interface ConfigOptions {
     as?: string;
@@ -27,6 +28,7 @@ export function Config<T>(opts: ConfigOptions = {}) {
         if (typeof opts.dir === 'undefined') {
             opts.dir = 'config';
         }
+        reflect.setConvictMetaForClass(opts, constructor);
         getMetaSchemaStorage().setClass(constructor, true, opts);
     };
 }

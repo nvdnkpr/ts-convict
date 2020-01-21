@@ -1,21 +1,15 @@
-import { ConvictModel } from '../index';
-
-const builder: ConvictModel = new ConvictModel([
-    'src/test/scenarios/**/**.model.*s'
-]);;
+import { Property } from '../index';
+import { TSConvict } from '../TSConvict';
+import WithMainParent from "./scenarios/subconfig_with_main/WithMainParent.model";
 
 const myRawConfig: any = {
     name: 'Bubbles',
     subConfig: {
-        foo: 4
+        bar: 4
     }
 };
 
-const convictSchema: any = builder.getSchemaFor('SubNoMainParent');
-console.log('The convict schema');
-console.dir(convictSchema);
+const tsConvict = new TSConvict<WithMainParent>(WithMainParent);
+const config = tsConvict.load(myRawConfig);
 
-const myValidConfig = builder.create('SubNoMainParent', myRawConfig);
-
-console.log('Got a valid config');
-console.dir(myValidConfig);
+console.log("The config", config);

@@ -1,4 +1,4 @@
-import {Property, Config} from "../../";
+import {Property, Config} from "../../../index";
 
 export default class SubConfig {
 
