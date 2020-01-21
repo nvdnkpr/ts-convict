@@ -1,0 +1,4 @@
+name: 'the bar config'
+port: 8090
+subConfig:
+    bar: 22

@@ -4,26 +4,24 @@
 import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
-import { getConvictModel, ConvictModel } from '../../../index';
+import { TSConvict } from '../../../index';
 import DifferentTypes from './DifferentTypes.model';
 
-let builder: ConvictModel;
+let tsConvict: TSConvict<DifferentTypes>;
 
 @suite('Test a config with different types all set incorrectly')
 export class DifferentTypesTest {
 
-    public static before() {
+    public before() {
         // console.log('Running the MyConfig Test');
-        builder = getConvictModel([
-            'src/test/scenarios/different_types/**.model.*s'
-        ]);
+        tsConvict = new TSConvict(DifferentTypes);
     }
 
     @test('Test to make sure all the default values are valid')
     public testDefaultTypes() {
         let config: DifferentTypes;
         assert.doesNotThrow(() => {
-            config = builder.createSimple('DifferentTypes');
+            config = tsConvict.load();
         }, 'The default values should not give an error');
         assert.strictEqual(config.name,'Convict', 'The port should be Convict');
         assert.strictEqual(config.daysTillApocalypse,1, 'The daysTillApocalypse should be 1');
@@ -37,14 +35,14 @@ export class DifferentTypesTest {
         // make sure a valid value can be given
         // first make sure a valid config with an int can be given
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes', {
+            tsConvict.load({
                 name: 'chicken'
             });
         }, 'The value was a string so there should not be an error');
 
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     name: 3
                 });
             } catch (error) {
@@ -62,14 +60,14 @@ export class DifferentTypesTest {
 
         // first make sure a valid config with an int can be given
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes', {
+            tsConvict.load({
                 daysTillApocalypse: 5
             });
         }, 'The value was an int so there should not be an error');
 
         // make sure you don't get an int error because we gave a negative number
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes', {
+            tsConvict.load({
                 daysTillApocalypse: -7
             });
         }, 'There should not be an error since daysTillApocalypse was given a negative');
@@ -77,7 +75,7 @@ export class DifferentTypesTest {
         // make sure you get a not an int error because we gave a string
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     daysTillApocalypse: 'not a number'
                 });
             } catch (error) {
@@ -92,7 +90,7 @@ export class DifferentTypesTest {
         // make sure you get a not an int error because we gave a double
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     daysTillApocalypse: 3.2
                 });
             } catch (error) {
@@ -111,7 +109,7 @@ export class DifferentTypesTest {
 
         // now make sure a valid IP can be given to host
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes',{
+            tsConvict.load({
                 host: '72.210.64.112'
             });
         }, 'The value was a valid IP so there should be no error');
@@ -119,7 +117,7 @@ export class DifferentTypesTest {
         // now make sure the ipaddress type does not allow some jibberish
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     host: 'somejibberish'
                 });
             } catch (error) {
@@ -137,14 +135,14 @@ export class DifferentTypesTest {
 
         // now make sure a valid port can be given to port
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes',{
+            tsConvict.load({
                 port: 5050
             });
         }, '5050 is a valid port so there should be no error');
 
         // make sure port as a string works too
         assert.doesNotThrow(() => {
-            builder.createSimple('DifferentTypes',{
+            tsConvict.load({
                 port: "3020"
             });
         }, '3020 is a valid port as a string so there should be no error');
@@ -152,7 +150,7 @@ export class DifferentTypesTest {
         // now make sure the port type does not allow some jibberish
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     port: 'somejibberish'
                 });
             } catch (error) {
@@ -167,7 +165,7 @@ export class DifferentTypesTest {
         // make sure we can't set a port out of range
         assert.throws(() => {
             try {
-                builder.createSimple('DifferentTypes', {
+                tsConvict.load({
                     port: 66535
                 });
             } catch (error) {

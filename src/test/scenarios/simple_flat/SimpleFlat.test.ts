@@ -5,18 +5,18 @@ import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
 import SimpleFlat from './SimpleFlat.model';
-import { getConvictModel, ConvictModel } from '../../../index';
+import { TSConvict } from '../../../index';
 
-let builder: ConvictModel;
+let tsConvict: TSConvict<SimpleFlat>;
 
 @suite('Test a config with only simple values')
 export class SimpleFlatTest {
 
-    public static before() {
-        // console.log('Running the MyConfig Test');
-        builder = getConvictModel([
-            'src/test/scenarios/simple_flat/**.model.*s'
-        ]);
+    /**
+     * Make a new one each and every test.
+     */
+    public before() {
+        tsConvict = new TSConvict(SimpleFlat);
     }
 
     @test('Test getting a simple flat config')
@@ -24,7 +24,7 @@ export class SimpleFlatTest {
         const myRawConfig: any = {
             name: 'Bubbles'
         };
-        const myValidConfig: SimpleFlat = builder.createSimple<SimpleFlat>('SimpleFlat', myRawConfig);
+        const myValidConfig: SimpleFlat = tsConvict.load(myRawConfig);
         //make sure we got a proper serialized type back
         assert.strictEqual(
             (myValidConfig instanceof SimpleFlat),
@@ -42,7 +42,7 @@ export class SimpleFlatTest {
 
     @test('Test getting a simple flat default config')
     public testGettingValidDefaultConfig() {
-        const myValidConfig: SimpleFlat = builder.createSimple<SimpleFlat>('SimpleFlat');
+        const myValidConfig: SimpleFlat = tsConvict.load();
         //make sure we got a proper serialized type back
         assert.strictEqual(
             (myValidConfig instanceof SimpleFlat),

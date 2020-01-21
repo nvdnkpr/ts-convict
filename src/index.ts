@@ -1,10 +1,11 @@
-import 'reflect-metadata';
 import PlatformTools from './PlatformTools';
 import MetaSchemaStorage from "./MetaSchemaStorage";
 import {ConvictModel} from './ConvictModel';
 
+export * from './interfaces';
 export * from './decorators/Property';
 export * from './decorators/Config';
+export * from './TSConvict';
 export {
     ConvictModel
 };

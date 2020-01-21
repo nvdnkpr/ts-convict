@@ -26,7 +26,7 @@ export class BasicsTest {
     @test('Test Simple flat with TSConvict')
     public testSimpleFlatTSConvict() {
         const tsConvict = new TSConvict<SimpleFlat>(SimpleFlat);
-        console.log("The TSConvict obj", tsConvict.schema);
+
     }
 
 }

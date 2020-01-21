@@ -6,9 +6,9 @@ import * as assert from "assert";
 import "mocha";
 import SubNoMainParent from './SubNoMainParent.model';
 import SubNoMainChild from "./SubNoMainChild.model";
-import { getConvictModel, ConvictModel } from '../../../index';
+import { TSConvict } from '../../../index';
 
-let builder: ConvictModel;
+let tsConvict: TSConvict<SubNoMainParent>;
 
 /**
  * tests a model with a submodel but no Config annotation
@@ -16,11 +16,8 @@ let builder: ConvictModel;
 @suite('Test a config with a subconfig but no Config annotation')
 export class SubNoMainTest {
 
-    public static before() {
-        // console.log('Running the MyConfig Test');
-        builder = getConvictModel([
-            'src/test/scenarios/sub_no_main/**.model.*s'
-        ]);
+    public before() {
+        tsConvict = new TSConvict(SubNoMainParent);
     }
 
     @test('Get a valid config from json values')
@@ -31,7 +28,7 @@ export class SubNoMainTest {
                 bar: 7
             }
         };
-        const myValidConfig: SubNoMainParent = builder.createSimple<SubNoMainParent>('SubNoMainParent', myRawConfig);
+        const myValidConfig: SubNoMainParent = tsConvict.load(myRawConfig);
         //make sure we got a proper serialized type back
         assert.strictEqual(
             (myValidConfig instanceof SubNoMainParent),
@@ -61,14 +58,14 @@ export class SubNoMainTest {
         );
     }
 
-    @test('Gert a valid default config')
+    @test('Get a valid default config')
     public testGettingValidDefaultConfig() {
-        const myValidConfig: SubNoMainParent = builder.createSimple<SubNoMainParent>('SubNoMainParent');
+        const myValidConfig: SubNoMainParent = tsConvict.load();
         //make sure the value is set to the default value
         assert.equal(
             myValidConfig.name,
             'Convict',
-            'Expected the name to be Bubbles on MyConifg'
+            'Expected the name to be Convict on MyConifg'
         );
 
         // make sure the subconfig class was properly instantiated

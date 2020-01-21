@@ -1,7 +1,6 @@
 .project
 .settings
 node_modules
-.vscode
 dist
 .nyc_output
 public

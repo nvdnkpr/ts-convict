@@ -30,7 +30,7 @@
   "scripts": {
     "install:dev": "npm install convict reflect-metadata js-yaml --no-save",
     "test": "NODE_PATH=src/ TS_NODE_FILES=true NODE_OPTIONS='-r reflect-metadata' nyc mocha --opts mocha.opts src/test/**/*.test.ts",
-    "debug": "NODE_ENV=dev node --inspect-brk=9229 ./node_modules/.bin/ts-node --files -P tsconfig.json src/test/debug.ts",
+    "debug": "TS_NODE_FILES=true TS_NODE_PROJECT=tsconfig.json node -r reflect-metadata -r ts-node/register --inspect-brk=9229 src/test/debug.ts",
     "lint": "tslint -p tsconfig.json -c tslint.json -t verbose",
     "build": "NODE_PATH=src/ TS_NODE_FILES=true tsc",
     "build:prod": "NODE_PATH=src/ TS_NODE_FILES=true tsc -p tsconfig.prod.json"
@@ -40,19 +40,21 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.7",
     "@types/convict": "^4.2.1",
     "@types/js-yaml": "^3.12.1",
     "@types/mocha": "^5.2.6",
     "@types/node": "^9.6.48",
+    "chai": "^4.2.0",
+    "convict": "^5.0.0",
     "js-yaml": "^3.13.1",
     "mocha": "^6.1.4",
     "mocha-typescript": "^1.1.17",
     "nyc": "^14.1.0",
+    "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.12",
     "ts-node": "^5.0.1",
     "tslint": "^5.16.0",
-    "typescript": "^2.9.2",
-    "convict": "^5.0.0",
-    "reflect-metadata": "^0.1.13"
+    "typescript": "^2.9.2"
   }
 }
