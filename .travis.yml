@@ -1,4 +1,5 @@
 language: node_js
+version: 1.0
 
 cache: npm
 
@@ -15,9 +16,10 @@ before_deploy:
   - npm run build:prod
 
 deploy:
+  edge: true
   provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
+  email: "$NPM_EMAIL"
+  api_key: "$NPM_TOKEN"
   skip_cleanup: true
   on:
     tags: true
