@@ -14,6 +14,7 @@ script:
 
 before_deploy:
   - npm run build:prod
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 
 deploy:
   edge: true
