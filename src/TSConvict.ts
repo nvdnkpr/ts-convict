@@ -1,4 +1,4 @@
-import reflect from "./util/Reflector";
+import reflect from "./Reflector";
 import convict, { Schema } from 'convict';
 import fs from "fs";
 import path from "path";

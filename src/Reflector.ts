@@ -1,4 +1,4 @@
-import { ConfigOptions } from '../interfaces';
+import { ConfigOptions } from './interfaces';
 
 /**
  * A simple wrapper for reflect. This adds the specific methods

@@ -6,12 +6,11 @@
 [![GitHub forks](https://img.shields.io/github/forks/akirix/ts-convict.svg?style=social&label=Fork)](https://github.com/akirix/ts-convict/fork)
 [![GitHub stars](https://img.shields.io/github/stars/akirix/ts-convict.svg?style=social&label=Star)](https://github.com/akirix/ts-convict)
 
-Annotate a class to define and validate your configs using [convict](https://www.npmjs.com/package/convict) 
-just like you do with an ORM. If you like annotating 
-models classes with Typescript, then this package will tickle your fancy. The 
-code style and patterns are based on [Typeorm](https://typeorm.io/#/) because they 
-know what's up. If your using a IOC/DI system, ConvictModel will fit in real nice. 
+Annotate a class to define and validate your configs using [convict](https://www.npmjs.com/package/convict) just like you do with an ORM. Brings true serialized class types to your config when loaded. If you like annotating models classes with Typescript, then this package will work well. If your using a IOC/DI system, TSConvict will fit in real nice. The idea is inspired by projects like [Typeorm](https://typeorm.io/#/) and [Inversify](http://inversify.io/). 
 
+### Quick Links
+[Contributing](/CONTRIBUTING.md) | [Changelog](/CHANGELOG.md) | [Convict](https://www.npmjs.com/package/convict) | 
+|---|---|---|
 
 ## Requirements  
 
@@ -19,39 +18,39 @@ know what's up. If your using a IOC/DI system, ConvictModel will fit in real nic
  - [Typescript 3+](https://www.npmjs.com/package/typescript)
  - [Convict 5+](https://www.npmjs.com/package/convict)
 
-### Quick Links
-[Contributing](/CONTRIBUTING.md) | [Changelog](/CHANGELOG.md) | [Convict](https://www.npmjs.com/package/convict) | 
-|---|---|---|
+## Features  
+ - all the power and then some from convict
+ - define convict schemas with decorators
+ - get your config as serialized classes
+ - extremely simple and intuitive implementation
+ - very pretty code for defining your apps config
 
 ## Installation  
 
-1. Install the package
+1. Install the package and dependencies.
 
-`npm install ts-convict --save`  
-
-2. Install `reflect-metadata` if you have not already so the annotations work. 
-
-`npm install reflect-metadata --save`
-
-then import it in global scope aka main file, i.e. `app.ts` or `index.ts`
-
-`import "reflect-metadata";`
-
-3. Now we install convict and its types so you can control the version
-
-`npm install convict --save`  
+`npm install ts-convict convict reflect-metadata --save`  
 `npm install @types/convict --save-dev`  
 
-4. Make sure annotations are enabled in `tsconfig.json`
+Optionally install a parser of your choice if your config is not JSON. For example you can also use YAML.
 
+`npm install js-yaml --save`
+
+2. Make sure `reflect-metadata` Is configured correctly for Typescript. 
+
+2.1 `tsconfig.json`  
 ```json
 "emitDecoratorMetadata": true,
 "experimentalDecorators": true,
 ```
 
-5. (optional) Install JS Yaml if you like yaml over json for configs. 
-
-`npm install js-yaml --save`
+2.2 Import in main file  
+`index.ts`  
+```typescript
+import "reflect-metadata";
+```
+or import with node command  
+`node -r reflect-metadata`
 
 ## Project Setup  
 
@@ -61,33 +60,30 @@ schema classes. This is a very simple Typescript folder structure.
 ```
 MyProject
 ├── src                  // place of your TypeScript code
-│   ├── schema           // place where your config entities will go
-│   │   ├── MyConfig.ts  // sample entity
-│   │   └── SubConfig.ts // a nested entity
+│   ├── config           // place where your config entities will go
+│   │   ├── MyConfig.ts  // the main config
+│   │   ├── Database.ts  // sample database config
+│   │   └── SubConfig.ts // a nested config
 │   ├── types.d.ts       // place to put your interfaces  
 │   └── index.ts         // start point of your application
 ├── .gitignore           // standard gitignore file
-├── config.json          // Your apps config file
+├── config.yml           // Your apps config file
+├── db.json              // Your apps other db config as json
 ├── package.json         // node module dependencies
 ├── README.md            // a readme file
 └── tsconfig.json        // TypeScript compiler options
 ```
 
-Take note of the `src/schema` directory, here we will put our config schema classes 
-which will be annotated with convict schema definitions. This directory can be called whatever 
-you like by the way. Technically you don't even need the folder, it's just a good idea 
-to put similar classes together for organization. 
+Take note of the `src/config` directory, here we will put our convict schema classes.  
+The classes will be annotated with convict schema definitions. This directory can be called whatever you like. 
 
-## Getting Started  
-
-Now we can start building up a model for our config schema. 
+## Useage  
 
 ### 1. Define an Interface  
 
 It's a good idea to define an interface so your experience can be agile and include 
 all the fancy IDE features. Interfaces also open an opportunity to have more than one 
-implementation of your config, i.e. maybe you use convict competitor or no validation 
-on config at all. 
+implementation of your config, i.e. maybe youswitch to a convict competitor or maybe just have no validation on config at all, i.e. `require('config.json')`. 
 
 `src/types.d.ts`
 ```typescript
@@ -95,35 +91,42 @@ declare namespace config {
     export interface MyConfig {
         name: string;
         subConfig: SubConfig;
+        db: Database;
     }
     export interface SubConfig {
         bar: number;
+    }
+    export interface Database {
+        host: string;
+        port: number;
+        database: string;
+        user: string;
+        password: string;
     }
 }
 ```
 
 ### 2. Define a Schema Class  
 
-Now we can define a schema class and decorate it like Christmas. The parameter for 
-`@Property` decorator is simply a convict `SchemaObj` like in normal convict. You can 
-read all about the possible options in [convicts documentation](https://www.npmjs.com/package/convict).
+Now we can define a schema class and decorate it. The parameter for `@Property` decorator is simply a convict `SchemaObj` like in normal convict. You can read all about the possible options in [convicts documentation](https://www.npmjs.com/package/convict).
 
-`src/schema/MyConfig.ts`
+`src/config/MyConfig.ts`
 ```typescript
-import { Property } from 'ts-convict';
+import { Property, Config } from 'ts-convict';
 import SubConfig from './SubConfig';
+import Database from './Database';
 import * as yaml from 'js-yaml';
 
 @Config({
-    as: 'foo',// an alias for the config file, i.e base name
-    dir: 'config',// relative to NODE_PATH or cwd()
+    file: 'config.yml',// relative to NODE_PATH or cwd()
     parser: { 
         extension: ['yml', 'yaml'], 
         parse: yaml.safeLoad
     }
 })
-export default class MyConfig implements config.MyConfig {
+export class MyConfig implements config.MyConfig {
     
+    // ts-convict will use the Typescript type if no format given
     @Property({
         doc: 'The name of the thing',
         default: 'Convict',
@@ -132,16 +135,19 @@ export default class MyConfig implements config.MyConfig {
     public name: string;
 
     @Property(SubConfig)
-    public subConfig: SubConfig;
+    public subConfig: config.SubConfig;
+
+    @Property(Database)
+    public db: config.Database;
 
 }
 ```
 
-`src/schema/SubConfig.ts`
+`src/config/SubConfig.ts`
 ```typescript
 import { Property } from 'ts-convict';
 
-export default class SubConfig {
+export class SubConfig implements config.SubConfig {
     @Property({
         doc: 'A sub prop',
         default: 3,
@@ -149,6 +155,53 @@ export default class SubConfig {
         format: 'int'
     })
     public bar: number;
+
+    public message: string = "I am an unmanaged config property";
+}
+```
+
+`Database.ts`
+```typescript
+import { Property } from 'ts-convict';
+
+export class Database implements config.Database {
+    @Property({
+        doc: "The database host",
+        default: "localhost",
+        format: "url",
+        env: "DATABASE_HOST"
+    })
+    public host: string;
+
+    @Property({
+        doc: "The database port",
+        default: 5432,
+        format: "port",
+        env: "DATABASE_PORT"
+    })
+    public port: number;
+
+    @Property({
+        doc: "The database db",
+        default: "my_db",
+        env: "DATABASE_DB"
+    })
+    public database: string;
+
+    @Property({
+        doc: "The database user",
+        default: "magik",
+        env: "DATABASE_USER"
+    })
+    public user: string;
+
+    @Property({
+        doc: "The database pass",
+        default: "secretpassword",
+        sensitive: true,
+        env: "DATABASE_PASS"
+    })
+    public password: string;
 }
 ```
 
@@ -158,13 +211,22 @@ Now we can make our configuration for our app. This can be a hardcoded Object in
 your code, a json file, a yaml file, or however you do it. In the end it's up to you 
 how you type out and load the data. 
 
-`config.json`
+`config.yml`
+```yml
+name: Cool App
+subConfig: 
+    bar: 5
+db:
+    user: devuser
+    password: devpassword
+```
+
+`db.json`
 ```json
 {
-    "name": "Cool App",
-    "subConfig": {
-        "bar": 5
-    }
+    "user": "someuser",
+    "password": "somepassword",
+    "host": "somedb.com"
 }
 ```
 
@@ -175,15 +237,24 @@ situation. The example below is the simplest way in the spirit of TL;DR.
 
 `src/index.ts`
 ```typescript
-import { getConvictModel, ConvictModel } from 'ts-convict';
+import { TSConvict } from 'ts-convict';
+import { MyConfig } from "./config/MyConfig";
+import { Database } from "./config/Database";
+import { SubConfig } from "./config/SubConfig";
 
-//get your config file however you do it
-const myRawConfig = getMyConfigData();
+// example loading default file defined in @Config
+const myConfigLoader = new TSConvict<MyConfig>(MyConfig);
+const myConfig: MyConfig = myConfigLoader.load();
 
-//initialize the ConvictModel with a list of paths or entities to load as the schema
-const convictModel: ConvictModel = getConvictModel(['src/schema/**/*.*s']);
+// example loading with file passed to load
+const dbLoader = new TSConvict<Database>(Database);
+const dbConfig: Database = dbLoader.load('db.json');
 
-//get your validated config object as a serialized class
-const myConfig: config.MyConfig = convictModel.create<config.MyConfig>('MyConfig',myRawConfig);
+// example loading an ad hoc config class with raw data
+const rawSub: config.SubConfig = {
+    bar: 22
+};
+const subLoader = new TSConvict<SubConfig>(SubConfig);
+const subConfig = subLoader.load(rawSub);
 
 ```

@@ -1,5 +1,4 @@
-import { getMetaSchemaStorage } from '../';
-import reflect from "../util/Reflector";
+import reflect from "../Reflector";
 import { ConfigOptions } from "../interfaces";
 
 /**
@@ -9,6 +8,5 @@ import { ConfigOptions } from "../interfaces";
 export function Config<T>(opts: ConfigOptions = {}) {
     return (constructor: new () => T) => {
         reflect.setConvictMetaForClass(opts, constructor);
-        getMetaSchemaStorage().setClass(constructor, true, opts);
     };
 }

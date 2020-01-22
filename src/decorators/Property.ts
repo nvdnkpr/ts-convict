@@ -1,6 +1,5 @@
-import { getMetaSchemaStorage } from '../';
 import { SchemaObj } from 'convict';
-import reflect from "../util/Reflector";
+import reflect from "../Reflector";
 
 /**
  * Anotate a config schema class property with this anotation.
@@ -21,6 +20,5 @@ export function Property(schemaObj: SchemaObj | (new () => {})) {
         // console.log("And the class is: ", target.constructor.name);
         reflect.setConvictMetaForProperty(schemaObj, target, propertyName);
         reflect.setPropertyForClass(target, propertyName);
-        getMetaSchemaStorage().addSchemaProp(target.constructor,propertyName,schemaObj);
     };
 }

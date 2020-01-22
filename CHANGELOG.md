@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+ - completely refactored to use reflect-metadata as global schema repo
+ - now implementation only needs a single class to pass into TSConvict to load it's entire schema  
+ - removed all of the metaSchemaRepo functionality so there is no adding to global anymore
+ - ability to load many file paths at once to cascade configs
+ - @Config decorator now just accepts a parser and a basefile to try and load if no file is passed to laod. 
+ - converted all the tests to use the new TSConvict class
 
 ## [0.2.0] - 2019-11-02
 ### Added
