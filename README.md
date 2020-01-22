@@ -1,10 +1,10 @@
 # TS Convict  
 
-[![Build Status](https://travis-ci.com/Akirix/ts-convict.svg?branch=master)](https://travis-ci.com/Akirix/ts-convict)
+[![Build Status](https://travis-ci.com/kferrone/ts-convict.svg?branch=master)](https://travis-ci.com/kferrone/ts-convict)
 [![NPM version](http://img.shields.io/npm/v/ts-convict.svg)](https://www.npmjs.com/package/ts-convict) 
  
-[![GitHub forks](https://img.shields.io/github/forks/akirix/ts-convict.svg?style=social&label=Fork)](https://github.com/akirix/ts-convict/fork)
-[![GitHub stars](https://img.shields.io/github/stars/akirix/ts-convict.svg?style=social&label=Star)](https://github.com/akirix/ts-convict)
+[![GitHub forks](https://img.shields.io/github/forks/kferrone/ts-convict.svg?style=social&label=Fork)](https://github.com/kferrone/ts-convict/fork)
+[![GitHub stars](https://img.shields.io/github/stars/kferrone/ts-convict.svg?style=social&label=Star)](https://github.com/kferrone/ts-convict)
 
 Annotate a class to define and validate your configs using [convict](https://www.npmjs.com/package/convict) just like you do with an ORM. Brings true serialized class types to your config when loaded. If you like annotating models classes with Typescript, then this package will work well. If your using a IOC/DI system, TSConvict will fit in real nice. The idea is inspired by projects like [Typeorm](https://typeorm.io/#/) and [Inversify](http://inversify.io/). 
 

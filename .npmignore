@@ -11,7 +11,7 @@ tslint.json
 public
 mocha.opts
 .travis.yml
-.nycrc
+.nycrc.json
 
 ## ide files
 .vscode
@@ -20,3 +20,4 @@ mocha.opts
 .git
 .settings
 .project
+codealike.json
