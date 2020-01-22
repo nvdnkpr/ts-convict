@@ -16,7 +16,7 @@ before_deploy:
 
 deploy:
   provider: npm
-  email: kelly@akirix.com
+  email: $NPM_EMAIL
   api_key: $NPM_TOKEN
   skip_cleanup: true
   on:
