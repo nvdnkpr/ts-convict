@@ -1,9 +1,9 @@
-import {Property} from "../../../";
+import { property } from "../../../";
 import Pet from "./Pet.model";
 
 export default class Dog extends Pet {
 
-    @Property({
+    @property({
         doc: 'How fluffy is the pet',
         default: 5
     })

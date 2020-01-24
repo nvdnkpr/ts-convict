@@ -1,8 +1,8 @@
-import {Property} from "../../../";
+import { property } from "../../../";
 
 export default class SubConfig {
 
-    @Property({
+    @property({
         doc: 'The bar',
         default: 0,
         env: 'SUB_CONFIG_BAR'

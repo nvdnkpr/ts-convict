@@ -1,6 +1,6 @@
 import { property } from "../../../";
 
-export default class SimpleFlat {
+export default class ConfigWithFormat {
 
     @property({
         doc: 'The name of the thing',

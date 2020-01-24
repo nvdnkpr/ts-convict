@@ -1,16 +1,16 @@
-import {Property} from "../../../";
+import { property } from "../../../";
 import SubNoMainChild from './SubNoMainChild.model';
 
 export default class SubNoMainParent {
 
-    @Property({
+    @property({
         doc: 'The name of the thing',
         default: 'Convict',
         env: 'MY_CONFIG_NAME'
     })
     public name: string;
 
-    @Property(SubNoMainChild)
+    @property(SubNoMainChild)
     public subConfig: SubNoMainChild;
 
 }

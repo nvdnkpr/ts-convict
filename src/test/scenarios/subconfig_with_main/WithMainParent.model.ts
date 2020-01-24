@@ -1,8 +1,8 @@
-import { Property, Config } from "../../../index";
+import { property, config } from "../../../index";
 import WithMainChild from './WithMainChild.model';
 import * as yaml from 'js-yaml';
 
-@Config({
+@config({
     file: 'src/test/scenarios/subconfig_with_main/foo.yml',
     parser: {
         extension: ['yml', 'yaml'],
@@ -11,28 +11,28 @@ import * as yaml from 'js-yaml';
 })
 export default class WithMainParent {
 
-    @Property({
+    @property({
         doc: 'The name of the thing',
         default: 'Convict',
         env: 'MY_CONFIG_NAME'
     })
     public name: string;
 
-    @Property({
+    @property({
         doc: 'The host',
         default: '127.0.0.1',
         format: "ipaddress"
     })
     public host: string;
 
-    @Property({
+    @property({
         doc: 'some port',
         default: 8080,
         format: "port"
     })
     public port: number;
 
-    @Property(WithMainChild)
+    @property(WithMainChild)
     public subConfig: WithMainChild;
 
     public extraSauce: string = "yes please";

@@ -1,8 +1,8 @@
-import { Property } from "../../../";
+import { property } from "../../../";
 
 export default class Pet {
 
-    @Property({
+    @property({
         doc: 'A pets name',
         default: 'Rex'
     })
