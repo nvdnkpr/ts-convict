@@ -24,3 +24,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+
+after_success:
+  - npm run coverage

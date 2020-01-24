@@ -12,6 +12,7 @@ public
 mocha.opts
 .travis.yml
 .nycrc.json
+.coveralls.yml
 
 ## ide files
 .vscode

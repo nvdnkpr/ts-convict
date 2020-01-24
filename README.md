@@ -1,7 +1,6 @@
 # TS Convict  
 
-[![Build Status](https://travis-ci.com/kferrone/ts-convict.svg?branch=master)](https://travis-ci.com/kferrone/ts-convict)
-[![NPM version](http://img.shields.io/npm/v/ts-convict.svg)](https://www.npmjs.com/package/ts-convict) 
+[![NPM version](http://img.shields.io/npm/v/ts-convict.svg)](https://www.npmjs.com/package/ts-convict) [![Build Status](https://travis-ci.com/kferrone/ts-convict.svg?branch=master)](https://travis-ci.com/kferrone/ts-convict) [![Coverage Status](https://coveralls.io/repos/github/kferrone/ts-convict/badge.svg?branch=master)](https://coveralls.io/github/kferrone/ts-convict?branch=master)
  
 [![GitHub forks](https://img.shields.io/github/forks/kferrone/ts-convict.svg?style=social&label=Fork)](https://github.com/kferrone/ts-convict/fork)
 [![GitHub stars](https://img.shields.io/github/stars/kferrone/ts-convict.svg?style=social&label=Star)](https://github.com/kferrone/ts-convict)

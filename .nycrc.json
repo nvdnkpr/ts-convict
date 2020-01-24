@@ -1,19 +1,23 @@
 {
+    "all": true,
     "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "src/test"
     ],
     "extension": [
-      ".ts",
-      ".tsx"
+        ".ts"
     ],
     "require": [
-      "ts-node/register"
+        "reflect-metadata",
+        "ts-node/register"
     ],
     "reporter": [
-      "text",
-      "text-summary",
-      "html"
+        "text",
+        "text-summary",
+        "html",
+        "lcov"
     ],
     "sourceMap": true,
     "instrument": true,

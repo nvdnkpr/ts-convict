@@ -3,18 +3,11 @@
   // Includes source and test files.
   "extends": "./tsconfig.json",
   "compilerOptions": {
-  	"sourceMap": false
+      "sourceMap": false,
+      "pretty": false,
+      "removeComments": true
   },
   "exclude": [
-    "node_modules",
-    "deploy",
-    "dist",
-    "log",
-    "tmp",
-    ".settings",
-    "docs",
-    "config",
-    "src/build",
     "src/test"
   ]
 }
