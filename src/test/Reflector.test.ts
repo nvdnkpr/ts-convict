@@ -74,9 +74,6 @@ export class ReflectorTester {
         }
         const actual = reflect.getConvictMetaForClass(parent.constructor);
         assert.deepStrictEqual(actual, expected, "The config schema has differed");
-
-        //const nullChildSchema = reflect.getConvictMetaForClass(child.constructor);
-        //assert.strictEqual((nullChildSchema === null), true, "The child has no config schema");
     }
 
 }
