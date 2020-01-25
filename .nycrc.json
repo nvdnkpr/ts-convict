@@ -11,6 +11,7 @@
     ],
     "require": [
         "reflect-metadata",
+        "source-map-support/register",
         "ts-node/register"
     ],
     "reporter": [

@@ -1,5 +1,5 @@
-import { property } from "../../../";
-import SubNoMainChild from './SubNoMainChild.model';
+import { property } from "index";
+import { SubConfig } from "test/schema/SubConfig";
 
 export default class SubNoMainParent {
 
@@ -10,7 +10,7 @@ export default class SubNoMainParent {
     })
     public name: string;
 
-    @property(SubNoMainChild)
-    public subConfig: SubNoMainChild;
+    @property(SubConfig)
+    public subConfig: SubConfig;
 
 }

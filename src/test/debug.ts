@@ -1,4 +1,4 @@
-import { Property } from '../index';
+import { property } from '../index';
 import { TSConvict } from '../TSConvict';
 // import WithMainParent from "./scenarios/subconfig_with_main/WithMainParent.model";
 import SimpleFlat from './scenarios/simple_flat/SimpleFlat.model';

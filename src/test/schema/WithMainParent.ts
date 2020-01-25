@@ -1,9 +1,9 @@
-import { property, config } from "../../../index";
-import WithMainChild from './WithMainChild.model';
+import { property, config } from "index";
+import WithMainChild from './WithMainChild';
 import * as yaml from 'js-yaml';
 
 @config({
-    file: 'src/test/scenarios/subconfig_with_main/foo.yml',
+    file: 'src/test/config/foo.yml',
     parser: {
         extension: ['yml', 'yaml'],
         parse: yaml.safeLoad

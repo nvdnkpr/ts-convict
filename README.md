@@ -5,7 +5,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/kferrone/ts-convict.svg?style=social&label=Fork)](https://github.com/kferrone/ts-convict/fork)
 [![GitHub stars](https://img.shields.io/github/stars/kferrone/ts-convict.svg?style=social&label=Star)](https://github.com/kferrone/ts-convict)
 
-Annotate a class to define and validate your configs using [convict](https://www.npmjs.com/package/convict) just like you do with an ORM. Brings true serialized class types to your config when loaded. If you like annotating models classes with Typescript, then this package will work well. If your using a IOC/DI system, TSConvict will fit in real nice. The idea is inspired by projects like [Typeorm](https://typeorm.io/#/) and [Inversify](http://inversify.io/). 
+Decorate a class to define and validate your configs using [convict](https://www.npmjs.com/package/convict). Brings true serialized class types to your config when loaded. The idea is inspired by projects like [Typeorm](https://typeorm.io/#/) and [Inversify](http://inversify.io/). 
 
 ### Quick Links
 [Contributing](/CONTRIBUTING.md) | [Changelog](/CHANGELOG.md) | [Convict](https://www.npmjs.com/package/convict) | 
@@ -21,7 +21,7 @@ Annotate a class to define and validate your configs using [convict](https://www
  - all the power and then some from convict
  - define convict schemas with decorators
  - get your config as serialized classes
- - extremely simple and intuitive implementation
+ - simple and intuitive implementation
  - very pretty code for defining your apps config
 
 ## Installation  
@@ -111,12 +111,12 @@ Now we can define a schema class and decorate it. The parameter for `@Property` 
 
 `src/config/MyConfig.ts`
 ```typescript
-import { Property, Config } from 'ts-convict';
+import { property, config } from 'ts-convict';
 import SubConfig from './SubConfig';
 import Database from './Database';
 import * as yaml from 'js-yaml';
 
-@Config({
+@config({
     file: 'config.yml',// relative to NODE_PATH or cwd()
     parser: { 
         extension: ['yml', 'yaml'], 
@@ -126,7 +126,7 @@ import * as yaml from 'js-yaml';
 export class MyConfig implements config.MyConfig {
     
     // ts-convict will use the Typescript type if no format given
-    @Property({
+    @property({
         doc: 'The name of the thing',
         default: 'Convict',
         env: 'MY_CONFIG_NAME'
@@ -144,10 +144,10 @@ export class MyConfig implements config.MyConfig {
 
 `src/config/SubConfig.ts`
 ```typescript
-import { Property } from 'ts-convict';
+import { property } from 'ts-convict';
 
 export class SubConfig implements config.SubConfig {
-    @Property({
+    @property({
         doc: 'A sub prop',
         default: 3,
         env: 'SUB_CONFIG_BAR',
@@ -161,10 +161,10 @@ export class SubConfig implements config.SubConfig {
 
 `Database.ts`
 ```typescript
-import { Property } from 'ts-convict';
+import { property } from 'ts-convict';
 
 export class Database implements config.Database {
-    @Property({
+    @property({
         doc: "The database host",
         default: "localhost",
         format: "url",
@@ -172,7 +172,7 @@ export class Database implements config.Database {
     })
     public host: string;
 
-    @Property({
+    @property({
         doc: "The database port",
         default: 5432,
         format: "port",
@@ -180,21 +180,21 @@ export class Database implements config.Database {
     })
     public port: number;
 
-    @Property({
+    @property({
         doc: "The database db",
         default: "my_db",
         env: "DATABASE_DB"
     })
     public database: string;
 
-    @Property({
+    @property({
         doc: "The database user",
         default: "magik",
         env: "DATABASE_USER"
     })
     public user: string;
 
-    @Property({
+    @property({
         doc: "The database pass",
         default: "secretpassword",
         sensitive: true,

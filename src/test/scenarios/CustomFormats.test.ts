@@ -4,8 +4,8 @@
 import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
-import ConfigWithFormat from './ConfigWithFormat.model';
-import { TSConvict } from '../../../index';
+import ConfigWithFormat from "test/schema/ConfigWithFormat";
+import { TSConvict } from "index";
 
 let tsConvict: TSConvict<ConfigWithFormat>;
 

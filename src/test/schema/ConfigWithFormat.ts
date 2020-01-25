@@ -1,4 +1,4 @@
-import { property } from "../../../";
+import { property } from "index";
 
 export default class ConfigWithFormat {
 

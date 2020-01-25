@@ -4,9 +4,9 @@
 import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
-import reflect from '../Reflector';
-import WithMainParent from './scenarios/subconfig_with_main/WithMainParent.model';
-import WithMainChild from "./scenarios/subconfig_with_main/WithMainChild.model";
+import reflect from 'Reflector';
+import WithMainParent from 'test/schema/WithMainParent';
+import WithMainChild from "test/schema/WithMainChild";
 import { expect } from "chai";
 import * as yaml from 'js-yaml';
 
