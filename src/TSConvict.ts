@@ -43,7 +43,7 @@ export class TSConvict<T> {
      */
     constructor(ConfigClass: new(...args: any[]) => T) {
         // make sure the class is actually decorated with TSConvict decorators
-        if (!reflect.isConfigClass) {
+        if (!reflect.isConfigClass(ConfigClass)) {
             throw new Error("A class must be decorated with Config or at least one Property");
         }
 
@@ -56,9 +56,12 @@ export class TSConvict<T> {
             }
             // TODO: Fix this area so tests pass
             this.baseFile = opts.file || null;
-            if (!fs.existsSync(path.resolve(this.baseFile))) {
-                this.baseFile = null;
+            if (this.baseFile !== null) {
+                if (!fs.existsSync(path.resolve(this.baseFile))) {
+                    this.baseFile = null;
+                }
             }
+            
         }
 
         // load up convict, schema, and model

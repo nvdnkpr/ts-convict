@@ -133,29 +133,9 @@ export class MyConfig implements config.MyConfig {
     })
     public name: string;
 
-    @Property(SubConfig)
-    public subConfig: config.SubConfig;
-
     @Property(Database)
     public db: config.Database;
 
-}
-```
-
-`src/config/SubConfig.ts`
-```typescript
-import { property } from 'ts-convict';
-
-export class SubConfig implements config.SubConfig {
-    @property({
-        doc: 'A sub prop',
-        default: 3,
-        env: 'SUB_CONFIG_BAR',
-        format: 'int'
-    })
-    public bar: number;
-
-    public message: string = "I am an unmanaged config property";
 }
 ```
 
@@ -213,8 +193,6 @@ how you type out and load the data.
 `config.yml`
 ```yml
 name: Cool App
-subConfig: 
-    bar: 5
 db:
     user: devuser
     password: devpassword

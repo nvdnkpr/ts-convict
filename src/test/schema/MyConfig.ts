@@ -1,10 +1,9 @@
 import { property, config } from 'index';
-import { SubConfig } from './SubConfig';
 import { Database } from './Database';
 import * as yaml from 'js-yaml';
 
 @config({
-    file: 'config.yml',// relative to NODE_PATH or cwd()
+    file: 'src/test/config/config.yml',// relative to NODE_PATH or cwd()
     parser: { 
         extension: ['yml', 'yaml'], 
         parse: yaml.safeLoad
@@ -19,9 +18,6 @@ export class MyConfig implements config.MyConfig {
         env: 'MY_CONFIG_NAME'
     })
     public name: string;
-
-    @property(SubConfig)
-    public subConfig: config.SubConfig;
 
     @property(Database)
     public db: config.Database;

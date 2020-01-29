@@ -5,7 +5,7 @@ import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
 import { Named } from "test/schema/Named";
-import Dog from "test/schema/Dog";
+import Dog from "test/schema/ExtendedConfig";
 import { TSConvict } from "index";
 import reflect from "Reflector";
 import { expect } from "chai";

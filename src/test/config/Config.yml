@@ -1,0 +1,4 @@
+name: Cool App
+db:
+    user: devuser
+    password: devpassword

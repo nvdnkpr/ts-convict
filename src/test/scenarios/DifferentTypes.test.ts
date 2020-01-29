@@ -5,28 +5,40 @@ import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
 import { TSConvict } from 'index';
-import DifferentTypes from 'test/schema/DifferentTypes';
+import SimpleTypes from 'test/schema/SimpleTypes';
 
-let tsConvict: TSConvict<DifferentTypes>;
+let tsConvict: TSConvict<SimpleTypes>;
 
-@suite('Test a config with different types all set incorrectly')
+@suite('Test a config with different simple types')
 export class DifferentTypesTest {
 
     public before() {
         // console.log('Running the MyConfig Test');
-        tsConvict = new TSConvict(DifferentTypes);
+        tsConvict = new TSConvict(SimpleTypes);
+    }
+
+    @test("Make sure the config is the right serialized type")
+    public testConfigType() {
+        
     }
 
     @test('Test to make sure all the default values are valid')
     public testDefaultTypes() {
-        let config: DifferentTypes;
+        let config: SimpleTypes;
         assert.doesNotThrow(() => {
             config = tsConvict.load();
         }, 'The default values should not give an error');
-        assert.strictEqual(config.name,'Convict', 'The port should be Convict');
-        assert.strictEqual(config.daysTillApocalypse,1, 'The daysTillApocalypse should be 1');
-        assert.strictEqual(config.host,'127.0.0.1', 'The host should be 127.0.0.1');
-        assert.strictEqual(config.port,8080, 'The port should be 8080');
+        assert.strictEqual(
+            (config instanceof SimpleTypes),
+            true,
+            'Expected the config to be an instance of MyConifg'
+        );
+        assert.strictEqual(config.stringFormat, 'a string');
+        assert.strictEqual(config.numberFormat,77.2);
+        assert.strictEqual(config.booleanFormat,true);
+        assert.strictEqual(config.daysTillApocalypse,1);
+        assert.strictEqual(config.host,'127.0.0.1');
+        assert.strictEqual(config.port,8080);
     }
 
     @test('Test when value is of type string')
@@ -36,22 +48,14 @@ export class DifferentTypesTest {
         // first make sure a valid config with an int can be given
         assert.doesNotThrow(() => {
             tsConvict.load({
-                name: 'chicken'
+                stringFormat: 'chicken'
             });
         }, 'The value was a string so there should not be an error');
 
         assert.throws(() => {
-            try {
-                tsConvict.load({
-                    name: 3
-                });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'name:  should be of type String: value was 3'
-                );
-                throw error;
-            }
+            tsConvict.load({
+                stringFormat: 3
+            });
         }, 'There should be an error since name should be a string');
     }
 
@@ -74,32 +78,16 @@ export class DifferentTypesTest {
 
         // make sure you get a not an int error because we gave a string
         assert.throws(() => {
-            try {
-                tsConvict.load({
-                    daysTillApocalypse: 'not a number'
-                });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'daysTillApocalypse: must be an integer'
-                );
-                throw error;
-            }
+            tsConvict.load({
+                daysTillApocalypse: 'not a number'
+            });
         }, 'There should be an error since daysTillApocalypse was given a string');
 
         // make sure you get a not an int error because we gave a double
         assert.throws(() => {
-            try {
-                tsConvict.load({
-                    daysTillApocalypse: 3.2
-                });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'daysTillApocalypse: must be an integer'
-                );
-                throw error;
-            }
+            tsConvict.load({
+                daysTillApocalypse: 3.2
+            });
         }, 'There should be an error since daysTillApocalypse was given a double');
 
     }
@@ -116,17 +104,9 @@ export class DifferentTypesTest {
 
         // now make sure the ipaddress type does not allow some jibberish
         assert.throws(() => {
-            try {
-                tsConvict.load({
+            tsConvict.load({
                     host: 'somejibberish'
                 });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'host: must be an IP address: value was "somejibberish"'
-                );
-                throw error;
-            }
         }, 'There should be an error because host was set to somejibberish');
     }
 
@@ -149,32 +129,16 @@ export class DifferentTypesTest {
 
         // now make sure the port type does not allow some jibberish
         assert.throws(() => {
-            try {
-                tsConvict.load({
+            tsConvict.load({
                     port: 'somejibberish'
                 });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'port: ports must be within range 0 - 65535'
-                );
-                throw error;
-            }
         }, 'There should be an error because port was set to somejibberish');
 
         // make sure we can't set a port out of range
         assert.throws(() => {
-            try {
-                tsConvict.load({
+            tsConvict.load({
                     port: 66535
                 });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'port: ports must be within range 0 - 65535'
-                );
-                throw error;
-            }
         }, 'The port should have an error because 66535 is greater than 65535');
 
     }

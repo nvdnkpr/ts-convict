@@ -1,5 +1,8 @@
-import { property } from "index";
+import { property, config } from "index";
 
+@config({
+    file: 'database.json', // not there, should be ignored
+})
 export class Database implements config.Database {
     @property({
         doc: "The database host",

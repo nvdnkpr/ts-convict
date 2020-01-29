@@ -5,13 +5,14 @@ import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
 import reflect from 'Reflector';
-import WithMainParent from 'test/schema/WithMainParent';
-import WithMainChild from "test/schema/WithMainChild";
+import { MyConfig } from 'test/schema/MyConfig';
+import { Database } from "test/schema/Database";
+import HelloType from "test/formats/HelloType";
 import { expect } from "chai";
 import * as yaml from 'js-yaml';
 
-const parent = new WithMainParent();
-const child = new WithMainChild();
+const parent = new MyConfig();
+const child = new Database();
 
 const NotRealConfigClass = class {
     public foo: string;
@@ -26,8 +27,8 @@ export class ReflectorTester {
     @test("Make sure the right amount of props can be found")
     public checkPropCount() {
         const props = reflect.getClassProperties(parent);
-        assert.strictEqual(props.length, 4, "There should be exactly 4 properties");
-        expect(props).to.have.all.members(['name', 'host', 'port', 'subConfig']);
+        assert.strictEqual(props.length, 2, "There should be exactly 2 properties");
+        expect(props).to.have.all.members(['name', 'db']);
     }
 
     @test("Check finding some property metadata")
@@ -44,7 +45,7 @@ export class ReflectorTester {
 
     @test("Make sure the reflector can understand a function is a constructor")
     public testTheIsConstructor() {
-        assert.strictEqual(reflect.isConstructor(WithMainParent), true, "The WithMainParent is a constructor though");
+        assert.strictEqual(reflect.isConstructor(MyConfig), true, "The WithMainParent is a constructor though");
         assert.strictEqual(reflect.isConstructor(parent), false, "The parent is an instance of WithMainParent, not a constructor");
         assert.strictEqual(reflect.isConstructor(() => { }), false, "That is not a constructor, it's an arrow function");
         assert.strictEqual(reflect.isConstructor(function () { }), false, "That is not a constructor, it's a function");
@@ -56,7 +57,7 @@ export class ReflectorTester {
 
     @test("Make sure the reflector can determine a class is a config class")
     public testTheIsConfigClass() {
-        assert.strictEqual(reflect.isConfigClass(WithMainParent), true, "The WithMainParent should be a config class");
+        assert.strictEqual(reflect.isConfigClass(MyConfig), true, "The WithMainParent should be a config class");
         assert.strictEqual(reflect.isConfigClass(parent), false, "The parent is an instance of a config class, not a config class");
         assert.strictEqual(reflect.isConfigClass(parent.constructor), true, "The parent.constructor is a config class");
         assert.strictEqual(reflect.isConfigClass(String), false, "A String constructor is not a config class");
@@ -66,7 +67,7 @@ export class ReflectorTester {
     @test("Make sure we can get the class schema from a class")
     public testgettingClassSchema() {
         const expected = {
-            file: 'src/test/scenarios/subconfig_with_main/foo.yml',
+            file: "src/test/config/config.yml",
             parser: {
                 extension: ['yml', 'yaml'],
                 parse: yaml.safeLoad
@@ -75,5 +76,7 @@ export class ReflectorTester {
         const actual = reflect.getConvictMetaForClass(parent.constructor);
         assert.deepStrictEqual(actual, expected, "The config schema has differed");
     }
+
+    
 
 }

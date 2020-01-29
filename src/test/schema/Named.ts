@@ -11,4 +11,5 @@ export class Named {
     })
     public name: string;
 
+    public message: string = "I am an unmanaged config property";
 }

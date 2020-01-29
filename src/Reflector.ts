@@ -45,6 +45,15 @@ class Reflector {
     }
 
     /**
+     * Checks if a given target is indeed a format class. 
+     * It is a format class becuase it has the tsconvict:format key.
+     * @param target A class which might be a format 
+     */
+    public isFormatClass(target: any) {
+        return this._reflect.hasMetadata("tsconvict:format", target);
+    }
+
+    /**
      * Gets the type set by Typescript.
      * @param target The instance of a class to check.
      * @param propertyName The name of the proeprty on the instance to check.
@@ -113,6 +122,18 @@ class Reflector {
      */
     public getClassProperties(target: any): string[] {
         return this._reflect.getMetadata("tsconvict:properties", target.constructor) || null;
+    }
+
+    /**
+     * Set metadata for a custom format class.
+     * Simply adds a key with a name. This will allow
+     * TSConvict to get this info and know the class
+     * is a format class. 
+     * @param target 
+     * @param name 
+     */
+    public setConvictMetaForFormat(target, name) {
+        return this._reflect.defineMetadata("tsconvict:format", name, target);
     }
 }
 
