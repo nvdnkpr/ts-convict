@@ -75,7 +75,7 @@ export class TSConvict<T> {
      * @throws Error when the given config can't be loaded
      * @returns The config model class with all the data applied.
      */
-    public load(config: string | string[] | any | null = null, options?: { level?: string }): T {
+    public load(config: string | string[] | any | null = null, options: { level?: string } = { level: 'strict'}): T {
 
         // if just a string or array then its file paths, hopefully
         if (typeof config === 'string' || Array.isArray(config)) {
