@@ -119,7 +119,6 @@ export class TSConvict<T> {
         // validate all the data is just right
         this.client.validate( { allowed: level } );
 
-
         const rawConfig = this.client.getProperties();
         return this.applyDataToModel(this.baseModel, rawConfig);
     }
