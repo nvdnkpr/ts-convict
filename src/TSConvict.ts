@@ -71,10 +71,11 @@ export class TSConvict<T> {
      * Loads the actual config and applies it to the
      * convict model chosen when the class was made.
      * @param config Either a string to a file or a an object with data.
+     * @param options An optional parameter that allows additional configurable params
      * @throws Error when the given config can't be loaded
      * @returns The config model class with all the data applied.
      */
-    public load(config: string | string[] | any | null = null): T {
+    public load(config: string | string[] | any | null = null, options: { level?: string } = { level: 'strict'}): T {
 
         // if just a string or array then its file paths, hopefully
         if (typeof config === 'string' || Array.isArray(config)) {
@@ -112,8 +113,12 @@ export class TSConvict<T> {
         else {
             throw new Error(`Could not load the config given: ${config}`);
         }
+
+        const level = options.level === 'warn' ? options.level : 'strict';
+
         // validate all the data is just right
-        this.client.validate( { allowed: 'strict' } );
+        this.client.validate( { allowed: level } );
+
         const rawConfig = this.client.getProperties();
         return this.applyDataToModel(this.baseModel, rawConfig);
     }
