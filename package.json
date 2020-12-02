@@ -1,6 +1,6 @@
 {
   "name": "ts-convict",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Model style decorators for your convict config.",
   "author": "Kelly Ferrone",
   "license": "ISC",
