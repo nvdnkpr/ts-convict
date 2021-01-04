@@ -99,7 +99,7 @@ class Reflector {
      */
     public setPropertyForClass(target: any, propertyName: string) {
         let props = this.getClassProperties(target);
-        if (props === null) {
+        if (props.length === 0) {
             this._reflect.defineMetadata("tsconvict:properties", [], target.constructor);
             props = this.getClassProperties(target);
         }
@@ -112,7 +112,7 @@ class Reflector {
      * @param target A constructor of a config class.
      */
     public getClassProperties(target: any): string[] {
-        return this._reflect.getMetadata("tsconvict:properties", target.constructor) || null;
+        return this._reflect.getMetadata("tsconvict:properties", target.constructor) || [];
     }
 }
 
