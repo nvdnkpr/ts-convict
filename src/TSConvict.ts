@@ -2,6 +2,7 @@ import reflect from "./Reflector";
 import convict, { Schema } from 'convict';
 import fs from "fs";
 import path from "path";
+import { ConfigOptions } from "interfaces";
 
 /**
  * A reflective wrapper for Mozilla Convict.
@@ -38,6 +39,11 @@ export class TSConvict<T> {
     private baseFile: string;
 
     /**
+     * The metadata passed into the class decorator
+     */
+    private opts: ConfigOptions = {};
+
+    /**
      * Gets the TSConvict ready with a model and schema.
      * @param ConfigClass The class which will be created as the base class.
      */
@@ -59,6 +65,7 @@ export class TSConvict<T> {
             if (!fs.existsSync(path.resolve(this.baseFile))) {
                 this.baseFile = null;
             }
+            this.opts = opts;
         }
 
         // load up convict, schema, and model
@@ -75,7 +82,7 @@ export class TSConvict<T> {
      * @throws Error when the given config can't be loaded
      * @returns The config model class with all the data applied.
      */
-    public load(config: string | string[] | any | null = null, options: { level?: string } = { level: 'strict'}): T {
+    public load(config: string | string[] | any | null = null): T {
 
         // if just a string or array then its file paths, hopefully
         if (typeof config === 'string' || Array.isArray(config)) {
@@ -114,9 +121,8 @@ export class TSConvict<T> {
             throw new Error(`Could not load the config given: ${config}`);
         }
 
-        const level = options.level === 'warn' ? options.level : 'strict';
-
         // validate all the data is just right
+        const level = this.opts.validationLevel === undefined ? 'strict' : this.opts.validationLevel;
         this.client.validate( { allowed: level } );
 
         const rawConfig = this.client.getProperties();
