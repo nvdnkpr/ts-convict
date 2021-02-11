@@ -3,7 +3,7 @@ import {Property} from "../../..";
 
 @Config({
     file: './Missing.test.ts',
-    validationLevel: 'warn'
+    validationMethod: 'warn'
 })
 export default class Missing {
 
