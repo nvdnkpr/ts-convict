@@ -15,5 +15,5 @@ export interface ConfigOptions {
     /**
      * The validation level used against your schema: strict | warn
      */
-    validationLevel?: ValidationMethod;
+    validationMethod?: ValidationMethod;
 }

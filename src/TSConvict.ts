@@ -122,7 +122,7 @@ export class TSConvict<T> {
         }
 
         // validate all the data is just right
-        const level = this.opts.validationLevel === undefined ? 'strict' : this.opts.validationLevel;
+        const level = this.opts.validationMethod === undefined ? 'strict' : this.opts.validationMethod;
         this.client.validate( { allowed: level } );
 
         const rawConfig = this.client.getProperties();
