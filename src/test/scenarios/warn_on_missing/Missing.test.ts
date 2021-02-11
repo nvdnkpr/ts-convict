@@ -4,10 +4,12 @@
 import { suite, test } from "mocha-typescript";
 import * as assert from "assert";
 import "mocha";
-import Missing from './Missing.model';
+import MissingWarn from './MissingWarn.model';
+import MissingStrict from './MissingStrict.model';
 import { TSConvict } from '../../../index';
 
-let tsConvict: TSConvict<Missing>;
+let tsConvictWarn: TSConvict<MissingWarn>;
+let tsConvictStrict: TSConvict<MissingStrict>;
 
 @suite('Test a config with parameters missing from schema')
 export class MissingTest {
@@ -16,7 +18,8 @@ export class MissingTest {
      * Make a new one each and every test.
      */
     public before() {
-        tsConvict = new TSConvict(Missing);
+        tsConvictWarn = new TSConvict(MissingWarn);
+        tsConvictStrict = new TSConvict(MissingStrict);
     }
 
     @test('Test getting a config with a missing schema value in warning level')
@@ -27,15 +30,13 @@ export class MissingTest {
         };
 
         assert.doesNotThrow(() => {
-            tsConvict.load(
-                myRawConfig,
-                { level: 'warn' }
+            tsConvictWarn.load(
+                myRawConfig
             );
-        }, 'The strictness level is set to warn so the invalid config value should not throw');
+        }, 'The validationLevel is set to warn so the invalid config value should not throw');
 
-        const validConfig = tsConvict.load(
-            myRawConfig,
-            { level: 'warn' }
+        const validConfig = tsConvictWarn.load(
+            myRawConfig
         );
 
         assert.strictEqual(('name' in validConfig), true, 'Included parameters from schema make it into valid configs');
@@ -51,9 +52,8 @@ export class MissingTest {
 
         assert.throws(() => {
             try {
-                tsConvict.load(
-                    myRawConfig,
-                    { level: 'strict' }
+                tsConvictStrict.load(
+                    myRawConfig
                 );
             } catch (error) {
                 assert.strictEqual(
@@ -62,22 +62,7 @@ export class MissingTest {
                 );
                 throw error;
             }
-        }, 'The strictness level is set to strict so the invalid config value should throw');
-
-        assert.throws(() => {
-            try {
-                tsConvict.load(
-                    myRawConfig,
-                    { level: 'unicornTears' }
-                );
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    "configuration param 'shout' not declared in the schema"
-                );
-                throw error;
-            }
-        }, 'The strictness level is set to a non-sense value so should default to strict in the load and should throw');
+        }, 'The validationLevel is set to strict so the invalid config value should throw');
 
     }
 }
