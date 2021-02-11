@@ -121,7 +121,8 @@ import * as yaml from 'js-yaml';
     parser: { 
         extension: ['yml', 'yaml'], 
         parse: yaml.safeLoad
-    }
+    },
+    validationMethod: 'strict' // optional parameter. Defaults to 'strict', can also be 'warn'
 })
 export class MyConfig implements config.MyConfig {
     
