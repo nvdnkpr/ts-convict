@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.1.0] - 2021-02-12
 ### Added
  - allow empty configs
  - exposecd convicts validationMethod in the Config annotation
+ - exposed formats object in @Config, now one can add as many custom formats as they like
+ - updated all of the dependencies and fixed the issues which came with the updates
+ - code is linted with eslint now instead of the deprecated tslint
 
 ## [1.0.0] - 2020-01-22
 ### Added
