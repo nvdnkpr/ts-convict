@@ -20,8 +20,7 @@ export default class WithMainParent {
 
     @Property({
         doc: 'The host',
-        default: '127.0.0.1',
-        format: "ipaddress"
+        default: '127.0.0.1'
     })
     public host: string;
 

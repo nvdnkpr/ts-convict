@@ -104,32 +104,6 @@ export class DifferentTypesTest {
 
     }
 
-    @test('Test when values is of type ipaddress')
-    public testIpType() {
-
-        // now make sure a valid IP can be given to host
-        assert.doesNotThrow(() => {
-            tsConvict.load({
-                host: '72.210.64.112'
-            });
-        }, 'The value was a valid IP so there should be no error');
-
-        // now make sure the ipaddress type does not allow some jibberish
-        assert.throws(() => {
-            try {
-                tsConvict.load({
-                    host: 'somejibberish'
-                });
-            } catch (error) {
-                assert.strictEqual(
-                    error.message,
-                    'host: must be an IP address: value was "somejibberish"'
-                );
-                throw error;
-            }
-        }, 'There should be an error because host was set to somejibberish');
-    }
-
     @test('Test when value is of type port')
     public testPortType() {
 

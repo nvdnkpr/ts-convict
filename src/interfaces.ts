@@ -1,4 +1,4 @@
-import { Parser, ValidationMethod } from 'convict';
+import { Parser, ValidationMethod, Format } from 'convict';
 
 export interface ConfigOptions {
 
@@ -16,4 +16,11 @@ export interface ConfigOptions {
      * The validation level used against your schema: strict | warn
      */
     validationMethod?: ValidationMethod;
+
+    /**
+     * Exposes ability to add formats to convict
+     */
+    formats?: {
+        [name: string]: Format
+    };
 }

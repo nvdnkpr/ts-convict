@@ -55,15 +55,13 @@ export class TSConvict<T> {
 
         // handle the parser and default file
         const opts = reflect.getConvictMetaForClass(ConfigClass);
-        this.baseFile = null;
+        // this.baseFile = null;
         if (opts !== null) {
             if (typeof opts.parser !== 'undefined') {
                 convict.addParser(opts.parser);
             }
-            // TODO: Fix this area so tests pass
-            this.baseFile = opts.file || null;
-            if (!fs.existsSync(path.resolve(this.baseFile))) {
-                this.baseFile = null;
+            if (typeof opts.formats !== 'undefined') {
+                convict.addFormats(opts.formats);
             }
             this.opts = opts;
         }
@@ -84,6 +82,11 @@ export class TSConvict<T> {
      */
     public load(config: string | string[] | any | null = null): T {
 
+        let baseFile: string | null = null;
+        if (typeof this.opts.file !== 'undefined' && fs.existsSync(path.resolve(this.opts.file))) {
+            baseFile = this.opts.file;
+        }
+
         // if just a string or array then its file paths, hopefully
         if (typeof config === 'string' || Array.isArray(config)) {
 
@@ -94,25 +97,26 @@ export class TSConvict<T> {
             } else {
                 files = [config];
             }
+
             // if there is a basefile then the param overrides the base
-            if (this.baseFile !== null) {
-                files.unshift(this.baseFile);
+            if (baseFile !== null) {
+                files.unshift(baseFile);
             }
             this.client.loadFile(files);
         }
         // if config is null then use basefile if it exists
         // if not then just an object
         else if (config === null) {
-            if (this.baseFile !== null) {
-                this.client.loadFile(this.baseFile);
+            if (baseFile !== null) {
+                this.client.loadFile(baseFile);
             } else {
                 this.client.load({});
             }
         }
         // if config is a simple object then load er up
         else if (typeof config === 'object') {
-            if (this.baseFile !== null) {
-                this.client.loadFile(this.baseFile);
+            if (baseFile !== null) {
+                this.client.loadFile(baseFile);
             }
             this.client.load(config);
         }
@@ -122,8 +126,8 @@ export class TSConvict<T> {
         }
 
         // validate all the data is just right
-        const level = this.opts.validationMethod === undefined ? 'strict' : this.opts.validationMethod;
-        this.client.validate( { allowed: level } );
+        const allowed = this.opts.validationMethod === undefined ? 'strict' : this.opts.validationMethod;
+        this.client.validate( { allowed } );
 
         const rawConfig = this.client.getProperties();
         return this.applyDataToModel(this.baseModel, rawConfig);
