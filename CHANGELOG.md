@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+ - allow empty configs
+ - exposecd convicts validationMethod in the Config annotation
 
 ## [1.0.0] - 2020-01-22
 ### Added
