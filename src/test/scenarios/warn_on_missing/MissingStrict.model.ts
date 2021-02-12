@@ -1,5 +1,10 @@
-import {Property} from "../../../";
+import { Config } from "decorators/Config";
+import {Property} from "../../..";
 
+@Config({
+    file: './Missing.test.ts',
+    validationMethod: 'strict'
+})
 export default class Missing {
 
     @Property({
