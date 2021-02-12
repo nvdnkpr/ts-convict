@@ -1,5 +1,4 @@
-import { Config } from "decorators/Config";
-import { Property } from "../../..";
+import { Property, Config } from "../../..";
 
 @Config({
     file: "./Missing.test.ts",
