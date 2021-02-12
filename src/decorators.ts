@@ -1,5 +1,16 @@
 import { SchemaObj } from 'convict';
-import reflect from "../Reflector";
+import reflect from "./Reflector";
+import { ConfigOptions } from "./interfaces";
+
+/**
+ * Tell me its a config
+ * @param constructor
+ */
+export function Config<T>(opts: ConfigOptions = {}) {
+    return (constructor: new () => T) => {
+        reflect.setConvictMetaForClass(opts, constructor);
+    };
+}
 
 /**
  * Anotate a config schema class property with this anotation.
