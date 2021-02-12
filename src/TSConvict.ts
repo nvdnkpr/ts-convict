@@ -1,5 +1,5 @@
 import reflect from "./Reflector";
-import convict, { Schema } from 'convict';
+import convict, { Schema } from "convict";
 import fs from "fs";
 import path from "path";
 import { ConfigOptions } from "interfaces";
@@ -12,7 +12,6 @@ import { ConfigOptions } from "interfaces";
  * @author Kelly Ferrone
  */
 export class TSConvict<T> {
-
     /**
      * The base model class which is `newed` when passed to
      * constructor. This represents the base model of the config.
@@ -47,20 +46,22 @@ export class TSConvict<T> {
      * Gets the TSConvict ready with a model and schema.
      * @param ConfigClass The class which will be created as the base class.
      */
-    constructor(ConfigClass: new(...args: any[]) => T) {
+    constructor(ConfigClass: new (...args: any[]) => T) {
         // make sure the class is actually decorated with TSConvict decorators
         if (!reflect.isConfigClass) {
-            throw new Error("A class must be decorated with Config or at least one Property");
+            throw new Error(
+                "A class must be decorated with Config or at least one Property"
+            );
         }
 
         // handle the parser and default file
         const opts = reflect.getConvictMetaForClass(ConfigClass);
         // this.baseFile = null;
         if (opts !== null) {
-            if (typeof opts.parser !== 'undefined') {
+            if (typeof opts.parser !== "undefined") {
                 convict.addParser(opts.parser);
             }
-            if (typeof opts.formats !== 'undefined') {
+            if (typeof opts.formats !== "undefined") {
                 convict.addFormats(opts.formats);
             }
             this.opts = opts;
@@ -81,15 +82,16 @@ export class TSConvict<T> {
      * @returns The config model class with all the data applied.
      */
     public load(config: string | string[] | any | null = null): T {
-
         let baseFile: string | null = null;
-        if (typeof this.opts.file !== 'undefined' && fs.existsSync(path.resolve(this.opts.file))) {
+        if (
+            typeof this.opts.file !== "undefined" &&
+            fs.existsSync(path.resolve(this.opts.file))
+        ) {
             baseFile = this.opts.file;
         }
 
         // if just a string or array then its file paths, hopefully
-        if (typeof config === 'string' || Array.isArray(config)) {
-
+        if (typeof config === "string" || Array.isArray(config)) {
             // make a files array
             let files: string[];
             if (Array.isArray(config)) {
@@ -114,7 +116,7 @@ export class TSConvict<T> {
             }
         }
         // if config is a simple object then load er up
-        else if (typeof config === 'object') {
+        else if (typeof config === "object") {
             if (baseFile !== null) {
                 this.client.loadFile(baseFile);
             }
@@ -126,8 +128,11 @@ export class TSConvict<T> {
         }
 
         // validate all the data is just right
-        const allowed = this.opts.validationMethod === undefined ? 'strict' : this.opts.validationMethod;
-        this.client.validate( { allowed } );
+        const allowed =
+            this.opts.validationMethod === undefined
+                ? "strict"
+                : this.opts.validationMethod;
+        this.client.validate({ allowed });
 
         const rawConfig = this.client.getProperties();
         return this.applyDataToModel(this.baseModel, rawConfig);

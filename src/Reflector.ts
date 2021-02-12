@@ -1,4 +1,4 @@
-import { ConfigOptions } from './interfaces';
+import { ConfigOptions } from "./interfaces";
 
 /**
  * A simple wrapper for reflect. This adds the specific methods
@@ -9,7 +9,6 @@ import { ConfigOptions } from './interfaces';
  * @author Kelly Ferrone
  */
 class Reflector {
-
     /**
      * A reference to the global Reflect
      */
@@ -19,7 +18,8 @@ class Reflector {
      * Verifies the global Reflect does exist and sets it as a property.
      */
     constructor() {
-        const reflectInstalled = Reflect && (Reflect as any).getMetadata ? true : false;
+        const reflectInstalled =
+            Reflect && (Reflect as any).getMetadata ? true : false;
         if (!reflectInstalled) {
             throw new Error("reflect-metadata should be installed properly");
         }
@@ -31,7 +31,11 @@ class Reflector {
      * @param obj Anything which might be a constructor.
      */
     public isConstructor(target: any) {
-        return !!target.prototype && !!target.prototype.constructor.name && (target instanceof Function);
+        return (
+            !!target.prototype &&
+            !!target.prototype.constructor.name &&
+            target instanceof Function
+        );
     }
 
     /**
@@ -39,9 +43,12 @@ class Reflector {
      * @param target
      */
     public isConfigClass(target: any) {
-        const hasProps = this._reflect.hasMetadata("tsconvict:properties", target);
+        const hasProps = this._reflect.hasMetadata(
+            "tsconvict:properties",
+            target
+        );
         const hasSchema = this._reflect.hasMetadata("tsconvict:schema", target);
-        return (hasProps || hasSchema);
+        return hasProps || hasSchema;
     }
 
     /**
@@ -59,7 +66,11 @@ class Reflector {
      * @param propertyName The name of the property on the instance to check.
      */
     public getConvictMetaForProperty(target: any, propertyName: string) {
-        return this._reflect.getMetadata("tsconvict:property", target, propertyName);
+        return this._reflect.getMetadata(
+            "tsconvict:property",
+            target,
+            propertyName
+        );
     }
 
     /**
@@ -68,8 +79,17 @@ class Reflector {
      * @param target The instance of a config class to set data on.
      * @param propertyName The name of the property on the instance to check.
      */
-    public setConvictMetaForProperty(schemaObj: any, target: any, propertyName: string) {
-        return this._reflect.defineMetadata("tsconvict:property", schemaObj, target, propertyName);
+    public setConvictMetaForProperty(
+        schemaObj: any,
+        target: any,
+        propertyName: string
+    ) {
+        return this._reflect.defineMetadata(
+            "tsconvict:property",
+            schemaObj,
+            target,
+            propertyName
+        );
     }
 
     /**
@@ -77,8 +97,12 @@ class Reflector {
      * @param schemaObj The schema info in a `Config` decorator.
      * @param target A constructor of a config class.
      */
-    public setConvictMetaForClass(schemaObj: ConfigOptions, target: any)  {
-        return this._reflect.defineMetadata("tsconvict:schema", schemaObj, target);
+    public setConvictMetaForClass(schemaObj: ConfigOptions, target: any) {
+        return this._reflect.defineMetadata(
+            "tsconvict:schema",
+            schemaObj,
+            target
+        );
     }
 
     /**
@@ -100,7 +124,11 @@ class Reflector {
     public setPropertyForClass(target: any, propertyName: string) {
         let props = this.getClassProperties(target);
         if (props.length === 0) {
-            this._reflect.defineMetadata("tsconvict:properties", [], target.constructor);
+            this._reflect.defineMetadata(
+                "tsconvict:properties",
+                [],
+                target.constructor
+            );
             props = this.getClassProperties(target);
         }
         return props.push(propertyName);
@@ -112,7 +140,12 @@ class Reflector {
      * @param target A constructor of a config class.
      */
     public getClassProperties(target: any): string[] {
-        return this._reflect.getMetadata("tsconvict:properties", target.constructor) || [];
+        return (
+            this._reflect.getMetadata(
+                "tsconvict:properties",
+                target.constructor
+            ) || []
+        );
     }
 }
 

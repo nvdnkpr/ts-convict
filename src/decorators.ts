@@ -1,4 +1,4 @@
-import { SchemaObj } from 'convict';
+import { SchemaObj } from "convict";
 import reflect from "./Reflector";
 import { ConfigOptions } from "./interfaces";
 
@@ -18,10 +18,12 @@ export function Config<T>(opts: ConfigOptions = {}) {
  */
 export function Property(schemaObj: SchemaObj | (new () => {})) {
     return (target: any, propertyName: string) => {
-
-        if ((typeof schemaObj === 'object') && (typeof schemaObj.format === 'undefined')) {
+        if (
+            typeof schemaObj === "object" &&
+            typeof schemaObj.format === "undefined"
+        ) {
             // if type is not given explicitly then try to guess it
-            const tsType = reflect.getTsType(target,propertyName);
+            const tsType = reflect.getTsType(target, propertyName);
             if (tsType) {
                 schemaObj.format = tsType;
             }

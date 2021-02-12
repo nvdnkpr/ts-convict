@@ -1,7 +1,6 @@
-import { Parser, ValidationMethod, Format } from 'convict';
+import { Parser, ValidationMethod, Format } from "convict";
 
 export interface ConfigOptions {
-
     /**
      * A directory relative to NODE_PATH or cwd()
      */
@@ -21,6 +20,6 @@ export interface ConfigOptions {
      * Exposes ability to add formats to convict
      */
     formats?: {
-        [name: string]: Format
+        [name: string]: Format;
     };
 }

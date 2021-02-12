@@ -1,3 +1,3 @@
-export * from './interfaces';
-export * from './decorators';
-export * from './TSConvict';
+export * from "./interfaces";
+export * from "./decorators";
+export * from "./TSConvict";

@@ -1,2 +1,1 @@
-export default class EmptyConfig {
-}
+export default class EmptyConfig {}

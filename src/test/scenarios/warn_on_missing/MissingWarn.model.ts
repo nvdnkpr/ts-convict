@@ -1,16 +1,15 @@
 import { Config } from "decorators/Config";
-import {Property} from "../../..";
+import { Property } from "../../..";
 
 @Config({
-    file: './Missing.test.ts',
-    validationMethod: 'warn'
+    file: "./Missing.test.ts",
+    validationMethod: "warn",
 })
 export default class Missing {
-
     @Property({
-        doc: 'The name of the thing',
-        default: 'Convict',
-        env: 'MY_CONFIG_NAME'
+        doc: "The name of the thing",
+        default: "Convict",
+        env: "MY_CONFIG_NAME",
     })
     public name: string;
 
@@ -21,5 +20,4 @@ export default class Missing {
     //     env: 'MY_SHOUT'
     // })
     // public shout: string;
-
 }
