@@ -1,7 +1,7 @@
 /**
  * @module test/models
  */
-import {suite, test} from "mocha-typescript";
+import {suite, test} from "@testdeck/mocha";
 import * as assert from "assert";
 import "mocha";
 import EmptyConfig from './EmptyConfig.model';

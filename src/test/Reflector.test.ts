@@ -1,7 +1,7 @@
 /**
  * @module test/models
  */
-import { suite, test } from "mocha-typescript";
+import { suite, test } from "@testdeck/mocha";
 import * as assert from "assert";
 import "mocha";
 import reflect from '../Reflector';
@@ -69,7 +69,7 @@ export class ReflectorTester {
             file: 'src/test/scenarios/subconfig_with_main/foo.yml',
             parser: {
                 extension: ['yml', 'yaml'],
-                parse: yaml.safeLoad
+                parse: yaml.load
             }
         }
         const actual = reflect.getConvictMetaForClass(parent.constructor);

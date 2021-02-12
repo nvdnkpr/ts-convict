@@ -6,7 +6,7 @@ import * as yaml from 'js-yaml';
     file: 'src/test/scenarios/subconfig_with_main/foo.yml',
     parser: {
         extension: ['yml', 'yaml'],
-        parse: yaml.safeLoad
+        parse: yaml.load
     }
 })
 export default class WithMainParent {

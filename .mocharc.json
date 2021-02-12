@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/mocharc",
+  "ui": "bdd",
+  "color": true,
+  "require": [
+    "reflect-metadata",
+    "ts-node/register",
+    "source-map-support/register"
+  ],
+  "extension": [
+    "ts",
+    "test.ts"
+  ]
+}
