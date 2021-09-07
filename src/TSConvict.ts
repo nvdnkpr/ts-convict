@@ -3,6 +3,7 @@ import convict, { Schema } from "convict";
 import fs from "fs";
 import path from "path";
 import { ConfigOptions } from "interfaces";
+import { get } from "lodash";
 
 /**
  * A reflective wrapper for Mozilla Convict.
@@ -179,7 +180,7 @@ export class TSConvict<T> {
                 this.applyDataToModel(target[key], config[key] || {});
             } else {
                 if (key in config) {
-                    target[key] = config[key];
+                    target[key] = get(config, key);
                 }
             }
         }
